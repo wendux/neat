@@ -1,0 +1,24 @@
+{
+  "name": "dQeury",
+  "version": "0.1.0",
+  "author": "duwen",
+  "description": "min jquery for mobile device",
+  "keywords": "dQuery",
+  "respository": {
+    "type": "git",
+    "url": ""
+  },
+  "bugs": {
+    "url": "",
+    "email": "duwen32767@163.com"
+  },
+  "scripts": {
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.14.0",
+    "webpack": "^1.13.2"
+  }
+}
