@@ -2,7 +2,8 @@
  * Created by du on 16/9/28.
  */
 //静态方法
-import {defered} from "./defered"
+import {Deferred} from "./deferred"
+import {ajax} from "./adjax"
 export var method = {
     extend(target, ob){
         for (var i in ob) {
@@ -26,5 +27,6 @@ export var method = {
     isString(s){
         return typeof s === "string"
     },
-    Deferred: defered
+    Deferred: Deferred
 }
+method.extend(method,ajax)
