@@ -46,7 +46,7 @@ export var prototype = {
     },
 
     click(callback){
-        return this.on("tap", callback);
+        return this.on("click", callback);
     },
 
     eq(index){

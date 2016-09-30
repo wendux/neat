@@ -37,7 +37,7 @@ src下为源代码文件,dist下为打包后的release文件,如果您只是想�
  注意:touch⌚️为方便函数,不支持同意个元素绑定多个touch事件,原因是,需要同一个元素支持多种touch操作的需求一般都是需要随时关注touch状态的,
  这样就需要分别处理up,down,move,既然这样,原生的写法不正好么?
 
-3.neat.utils.js 是neat的一个插件示例,如果您需要扩展neat,可以参考.
+3.neat.plugin.util.js 是neat的一个插件示例,如果您需要扩展neat,可以参考.
 
 如果你想修改源代码来定制neat,则在修改完成后,重新构建.构建方式如下
 
