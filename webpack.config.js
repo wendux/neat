@@ -5,10 +5,14 @@ var path = require('path');
 var fs = require("fs");
 var webpack = require('webpack');
 module.exports = {
-    entry: "./src/dQuery.js",
+    entry: {
+        neat: "./src/neat.js",
+        "neat.withtouch": "./src/neat.withtouch.js",
+        "neat.utils":"./src/extend/neat.plugin.util.js"
+    },
     output: {
         path: "./dist",
-        filename: "dQuery.js"
+        filename: "[name].min.js"
     },
     module: {
         loaders: [
@@ -22,10 +26,10 @@ module.exports = {
         ]
     },
     plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: true
-            }
-        }),
+        //new webpack.optimize.UglifyJsPlugin({
+        //    compress: {
+        //        warnings: true
+        //    }
+        //}),
     ]
 }

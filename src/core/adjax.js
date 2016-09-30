@@ -2,7 +2,7 @@
  * Created by du on 16/9/28.
  */
 
-import {Deferred} from "./deferred"
+import {deferred} from "./deferred"
 function formatParams(data) {
     var arr = [];
     for (var name in data) {
@@ -12,7 +12,7 @@ function formatParams(data) {
 }
 export var ajax = {
     ajax(url="",data,options) {
-       return Deferred((defer)=>{
+       return deferred((defer)=>{
             options = $.extend({type:"GET",dataType:"json"},options);
             var params = formatParams(data);
             var xhr = new XMLHttpRequest();
@@ -26,16 +26,13 @@ export var ajax = {
                     }
                 }
             }
-            var postParams = null;
             if (options.type.toUpperCase() == "GET") {
                 xhr.open("GET", url + "?" + params, true);
             } else {
                 xhr.open("POST", url, true);
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                postParams = params;
             }
-            //xhr.setRequestHeader("accept", "application/json, text/javascript, */*; q=0.01");
-            xhr.send(postParams);
+            xhr.send(params[0]?params:null);
         }).promise();
     },
     get(url,data){

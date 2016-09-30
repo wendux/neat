@@ -2,13 +2,16 @@
  * Created by du on 16/9/28.
  */
 
- function _Deferred(task) {
+ function Deferred(task) {
     var _callback = [[], [], []];
-    var state = 1;
+    var _state = 0;
     var _then=(tag,...callback)=> {
         for (var i = 0; i < callback.length; ++i) {
-            callback[i] && _callback[i].push(callback[i])
-            callback[i].tag = tag
+            if(_state==1) return;
+            if(callback[i]) {
+                _callback[i].push(callback[i])
+                callback[i].tag = tag
+            }
         }
         return promise;
     }
@@ -29,17 +32,17 @@
     }
     $.extend(this, {
         resolve(value){
-            state = 1;
             var t=value;
             for (let fun of _callback[0]) {
-                value = state && fun(value, this);
+                if(_state==1) return;
+                value = fun.call(this,value);
                 value=fun.tag?t:value;
             }
         },
         reject(error){
-            state = 0;
+            _state=1;
             for (let fun of _callback[1]) {
-                value = fun(error, this);
+                fun.call(this,error);
             }
         },
         notify(progress){
@@ -52,6 +55,6 @@
     task(this);
 }
 
-export function Deferred(task){
-    return new _Deferred(task);
+export function deferred(task){
+    return new Deferred(task);
 }
