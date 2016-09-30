@@ -96,6 +96,10 @@ export var prototype = {
         }
 
         if (JSON.stringify(t) != "{}") {
+            var s=["height","width","fontSize","top","left","right","bottom"]
+            s.forEach(e=>{
+                t[e]=t[e]&&parseFloat(t[e])+"px";
+            })
             return this.each(e=> {
                 $.extend(e.style, t);
             })
@@ -104,15 +108,16 @@ export var prototype = {
         }
     },
 
-    hide(s){
-        s=s?"none":"";
-        this.each(e=>{
-            $(e).css("display","none");
+    hide(){
+        return  this.each(e=>{
+            $(e).attr("od",$(e).css("display")).css("display","none");
         })
     },
 
     show(){
-        this.hide(false);
+       return this.each(e=>{
+           $(e).css("display",$(e).attr("od"));
+       })
     },
 
     attr(name, value){

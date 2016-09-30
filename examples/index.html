@@ -12,29 +12,54 @@
     <script src="../dist/neat.plugin.util.min.js"></script>
 
     <script>
-        $(function(){
-            $("ul").on("click","li",function(){
+        $(function () {
+
+            //事件委托,只绑定父元素,过滤li
+            $("ul").on("click", "li", function () {
                 console.log(this);
             })
+
+            $("li").each(function (e, i) {
+                $(e).text(i * 2);
+            })
+
+            $("#d").tap(function () {
+                var t = $(this);
+                //animate test
+                t.animate({opacity: 0, height: 0}, 200)
+                        .done(function () {
+                            t.hide();
+                        });
+            });
+
+            //ajax test
+            $(".btn").tap(function(){
+                $.get("").done(function(e){
+                    alert(e);
+                })
+            })
+
+            //插件中 all函数验证:在所有异步任务执行结束后才会调用done,接口是标砖的promise/deferred/
             $.all(
-                    $.Deferred(function(deferred){
-                        setTimeout(function(){
+                    $.Deferred(function (deferred) {
+                        setTimeout(function () {
                             console.log("我是第一个deferred,执行结果是dd");
                             deferred.resolve("dd");
-                        },1000);
+                        }, 1000);
                     }),
-                    $.Deferred(function(deferred){
-                        setTimeout(function(){
+                    $.Deferred(function (deferred) {
+                        setTimeout(function () {
                             console.log("我是第二个deferred,执行结果是xx");
                             deferred.resolve("xx");
-                        },3000);
+                        }, 3000);
                     })
-            ).done(function(data){
-                console.log("好开心,所有任务都成功了,结果是:",data)
-            }).fail(function(error){
-                console.log("不开心,有任务失败了,失败信息是:",data)
+            ).done(function (data) {
+                console.log("好开心,所有任务都成功了,结果是:", data)
+            }).fail(function (error) {
+                console.log("不开心,有任务失败了,失败信息是:", data)
             })
         })
+
     </script>
 </head>
 <style>
@@ -42,16 +67,28 @@
         font-size: 20px;
         -webkit-user-select: none;
     }
-    div{padding: 40px; border-bottom: 1px #000000 solid}
-    ul li{
+
+    div {
+        padding: 40px;
+        border-bottom: 1px #000000 solid
+    }
+
+    ul li {
         padding: 20px;
     }
-    ul li:nth-of-type(odd){background:#00CCFF;}
-    ul li:nth-of-type(even){background:#FFCC00;}
+
+    ul li:nth-of-type(odd) {
+        background: #00CCFF;
+    }
+
+    ul li:nth-of-type(even) {
+        background: #FFCC00;
+    }
+
 </style>
 
 <div id="d" class="c">
-  class=c  id=d
+    class=c id=d
 </div>
 
 <div id="t" class="c" data-t="d">
@@ -67,7 +104,8 @@
     <li>4</li>
     <li>5</li>
 </ul>
-<input type="checkbox" id="test" />
+
+<div  class="btn" style="padding: 15px; background: bisque; margin:20px; text-align: center"> ajax</div>
 
 
 </body>

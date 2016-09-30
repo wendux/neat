@@ -44,7 +44,6 @@
             for (var i = 0; i < args.length; ++i) {
                 +function (i) {
                     var o = args[i];
-                    console.log(o)
                     //不是Deferred对象
                     if (!o.promise) {
                         o.call(d);
@@ -69,10 +68,14 @@
     //扩展neat原型
     $.extend($.fn, {
         fadeOut: function fadeOut(speed) {
-            return this.animate({opacity: 0}, speed || 800);
+            var s=this;
+            return s.animate({opacity: 0}, speed || 800)
+                .done(function(){
+                    s.hide();
+                });
         },
         fadeIn: function fadeIn(speed) {
-            return this.animate({opacity: 1}, speed || 800);
+            return this.show().animate({opacity: 1}, speed || 800);
         }
     });
 
