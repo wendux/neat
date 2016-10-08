@@ -45,9 +45,6 @@
                 fun.call(this,error);
             }
         },
-        notify(progress){
-
-        },
         promise(){
             return promise;
         }

@@ -27,15 +27,16 @@ export var method = {
     animate(speed,argvs,callback){
         if(speed<30) speed=30;
         var f=callback||argvs
+        var _run=requestAnimationFrame;
         argvs=callback||undefined;
         function proxy(){
             var c=new Date-start;
             if(c>=speed) { f(speed,argvs); return;}
             f(c,argvs);
-            requestAnimationFrame(proxy);
+            _run(proxy);
         }
         var start=new Date;
-        requestAnimationFrame(proxy)
+        _run(proxy)
     },
 
     Deferred: deferred

@@ -5,8 +5,9 @@
 import {deferred} from "./deferred"
 function formatParams(data) {
     var arr = [];
+    var _encode=encodeURIComponent;
     for (var name in data) {
-        arr.push(encodeURIComponent(name) + "=" + encodeURIComponent(data[name]));
+        arr.push(_encode(name) + "=" + _encode(data[name]));
     }
     return arr;
 }

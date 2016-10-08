@@ -6,7 +6,6 @@ import {prototype} from "./prototype"
 
 function parseDom(arg) {
     if($.isObject(arg)) return arg;
-    //trim
     arg= $.trim(arg);
     if(arg[0]!="<"){
         return document.createElement(arg);

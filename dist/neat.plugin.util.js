@@ -5,17 +5,17 @@
     'use strict';
     //扩展字符串原型
     $.extend(String.prototype, {
-        format: function format() {
-            var args = Array.prototype.slice.call(arguments);
+        format: function () {
+            var args = [].slice.call(arguments);
             var count = 0;
             return this.replace(/%s/g, function (s, i) {
                 return args[count++];
             });
         },
-        trim: function trim() {
+        trim: function () {
             return this.replace(/(^\s*)|(\s*$)/g, '');
         },
-        empty: function empty() {
+        empty: function () {
             return this.trim() === "";
         }
     });
@@ -44,7 +44,7 @@
             for (var i = 0; i < args.length; ++i) {
                 +function (i) {
                     var o = args[i];
-                    //不是Deferred对象
+                    //不是Deferred对象则直接执行
                     if (!o.promise) {
                         o.call(d);
                         if (--count == 0) {
@@ -67,14 +67,14 @@
 
     //扩展neat原型
     $.extend($.fn, {
-        fadeOut: function fadeOut(speed) {
+        fadeOut: function (speed) {
             var s=this;
             return s.animate({opacity: 0}, speed || 800)
                 .done(function(){
                     s.hide();
                 });
         },
-        fadeIn: function fadeIn(speed) {
+        fadeIn: function (speed) {
             return this.show().animate({opacity: 1}, speed || 800);
         }
     });
