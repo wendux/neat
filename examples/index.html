@@ -19,9 +19,9 @@
                 console.log(this);
             })
 
-            $("li").each(function (e, i) {
-                $(e).text(i * 2);
-            })
+//            $("li").each(function (e, i) {
+//                $(e).text(i * 2);
+//            })
 
             $("#d").tap(function () {
                 var t = $(this);
@@ -55,8 +55,14 @@
                     })
             ).done(function (data) {
                 console.log("好开心,所有任务都成功了,结果是:", data)
+            }).done(function (data) {
+                console.log("成功了,结果是:", data)
             }).fail(function (error) {
-                console.log("不开心,有任务失败了,失败信息是:", data)
+                console.log("不开心,有任务失败了,失败信息是:", error)
+            }).fail(function(){
+                console.log("fail!")
+            }).always(function(){
+                console.log("always")
             })
         })
 
@@ -74,7 +80,7 @@
     }
 
     ul li {
-        padding: 20px;
+        padding: 40px;
     }
 
     ul li:nth-of-type(odd) {
@@ -99,8 +105,8 @@
 
 <ul>
     <li>1</li>
-    <li>2</li>
-    <li>3</li>
+    <li><div>2</div></li>
+    <li class="t">3</li>
     <li>4</li>
     <li>5</li>
 </ul>

@@ -94,7 +94,6 @@ Touch.prototype.factory = function () {
             s = "swipe"
         }
     }
-   // console.log(s,this.e);
     if (s == this.e) {
         this.target.trigger(this.e);
         return

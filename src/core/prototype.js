@@ -26,14 +26,19 @@ export var prototype = {
             this.each(e => {
                 $(e).on(evt, ()=>{
                     var t= event.target;
-                    if($(mix,e).indexOf(t)!=-1){
-                        fun.call(t,e);
-                    }
-                }, false);
+                    $(t).attr("_","_");
+                    $(mix,e).each(el=>{
+                        if (el==t||$("[_=_]",el).indexOf(t)!=-1){
+                            $(t).removeAttr("_");
+                            fun.call(el);
+                            return true;
+                        }
+                    })
+                });
             })
         }else {
             this.each(e => {
-                e.addEventListener(evt, mix, false);
+                e.addEventListener(evt, mix);
             })
         }
         return this;
@@ -189,18 +194,19 @@ export var prototype = {
         // initEvent接受3个参数：
         // 事件类型，是否冒泡，是否阻止浏览器的默认行为
         evt.initEvent(event, true, true);
-        this[0].dispatchEvent(evt);
-        return this;
+        return this.each((e)=>{
+            e.dispatchEvent(evt)
+        })
     },
     animate(styles,speed){
        return $.Deferred((d)=>{
             var start={};
             for(var k in styles){
-                start[k]=parseFloat($(this).css(k))
+                start[k]=parseFloat(this.css(k))
             }
             $.animate(speed,styles,(t)=>{
                 for(var i in styles){
-                    $(this).css(i,start[i]+t/speed*(styles[i]-start[i]))
+                    this.css(i,start[i]+t/speed*(styles[i]-start[i]))
                 }
                 if (t==speed){
                     d.resolve()

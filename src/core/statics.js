@@ -7,6 +7,7 @@ import {ajax} from "./adjax"
 export var method = {
     extend(target, ob){
         for (var i in ob) {
+            Object.hasOwnProperty()
             target[i] = ob[i];
         }
         return target;
