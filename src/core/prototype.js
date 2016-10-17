@@ -4,13 +4,15 @@
 
 export var prototype = {
 
-    ready: function(callback){
+    ready: function (callback) {
         if (/complete|loaded|interactive/.test(document.readyState)
             && document.body) {
             callback($)
         }
         else {
-            this.on('DOMContentLoaded', function(){ callback($) }, false)
+            this.on('DOMContentLoaded', function () {
+                callback($)
+            }, false)
         }
         return this
     },
@@ -21,33 +23,57 @@ export var prototype = {
         return this;
     },
 
-    on(evt, mix,fun){
-        if ($.isString(mix)){
+    on(evt, selector, fun){
+        if ($.isString(selector)) {
             this.each(e => {
-                $(e).on(evt, ()=>{
-                    var t= event.target;
-                    $(t).attr("_","_");
-                    $(mix,e).each(el=>{
-                        if (el==t||$("[_=_]",el).indexOf(t)!=-1){
+                var funProxy;
+                $(e).on(evt, funProxy = ()=> {
+                    var t = event.target;
+                    $(t).attr("_", "_");
+                    $(selector, e).each(el=> {
+                        if (el == t || $("[_=_]", el).indexOf(t) != -1) {
                             $(t).removeAttr("_");
                             fun.call(el);
-                            return true;
                         }
+                    })
+                    //委托事件存根,解绑时会用
+                    e._cb = e._cb || [];
+                    e._cb.push({
+                        n: evt + selector,
+                        f: fun,
+                        cb: funProxy
                     })
                 });
             })
-        }else {
+
+        } else {
             this.each(e => {
-                e.addEventListener(evt, mix);
+                e.addEventListener(evt, selector);
             })
         }
         return this;
     },
 
-    off(event, callback){
-        return this.each(e => {
-            e.removeEventListener(event, callback, false);
-        })
+    off(event, selector, callback){
+        if ($.isString(selector)) {
+            this.each(e => {
+                if (e._cb) {
+                    //遍历数组过程中要删除元素,故反向遍历
+                    for (var i = e._cb.length - 1; i > -1; --i) {
+                        var _stub = e._cb[i];
+                        if (_stub.n == event + selector && _stub.f == callback) {
+                            e._cb.splice(i, 1);
+                            $(e).off(event, _stub.cb)
+                        }
+                    }
+                }
+            })
+        } else {
+            this.each(e => {
+                e.removeEventListener(event, selector);
+            })
+        }
+        return this;
     },
 
     click(callback){
@@ -67,19 +93,20 @@ export var prototype = {
         return this;
     },
 
-    text(s,type){
-        type=type||"textContent";
-        if(s){
-          return  this.each(e=>{
-                e[type]=s;
+    text(s, type){
+        type = type || "textContent";
+        if (s) {
+            type = this.each(e=> {
+                e[type] = s;
             })
-        }else{
-            return this[0][type];
+        } else {
+            type = this[0][type];
         }
+        return type;
     },
 
     html(s){
-      return this.text(s,"innerHTML")  ;
+        return this.text(s, "innerHTML");
     },
 
     children(){
@@ -101,9 +128,9 @@ export var prototype = {
         }
 
         if (JSON.stringify(t) != "{}") {
-            var s=["height","width","fontSize","top","left","right","bottom"]
-            s.forEach(e=>{
-                t[e]=t[e]&&parseFloat(t[e])+"px";
+            var s = ["height", "width", "fontSize", "top", "left", "right", "bottom"]
+            s.forEach(e=> {
+                t[e] = t[e] && parseFloat(t[e]) + "px";
             })
             return this.each(e=> {
                 $.extend(e.style, t);
@@ -114,15 +141,15 @@ export var prototype = {
     },
 
     hide(){
-        return  this.each(e=>{
-            $(e).attr("od",$(e).css("display")).css("display","none");
+        return this.each(e=> {
+            $(e).attr("od", $(e).css("display")).css("display", "none");
         })
     },
 
     show(){
-       return this.each(e=>{
-           $(e).css("display",$(e).attr("od"));
-       })
+        return this.each(e=> {
+            $(e).css("display", $(e).attr("od"));
+        })
     },
 
     attr(name, value){
@@ -185,30 +212,30 @@ export var prototype = {
         })
     },
     remove(){
-        this.each(e=>{
+        this.each(e=> {
             $(e).parent()[0].removeChild(e);
         })
     },
     trigger(event){
-        var evt = document.createEvent( 'HTMLEvents' );
+        var evt = document.createEvent('HTMLEvents');
         // initEvent接受3个参数：
         // 事件类型，是否冒泡，是否阻止浏览器的默认行为
         evt.initEvent(event, true, true);
-        return this.each((e)=>{
+        return this.each((e)=> {
             e.dispatchEvent(evt)
         })
     },
-    animate(styles,speed){
-       return $.Deferred((d)=>{
-            var start={};
-            for(var k in styles){
-                start[k]=parseFloat(this.css(k))
+    animate(styles, speed){
+        return $.Deferred((d)=> {
+            var start = {};
+            for (var k in styles) {
+                start[k] = parseFloat(this.css(k))
             }
-            $.animate(speed,styles,(t)=>{
-                for(var i in styles){
-                    this.css(i,start[i]+t/speed*(styles[i]-start[i]))
+            $.animate(speed, styles, (t)=> {
+                for (var i in styles) {
+                    this.css(i, start[i] + t / speed * (styles[i] - start[i]))
                 }
-                if (t==speed){
+                if (t == speed) {
                     d.resolve()
                 }
             })

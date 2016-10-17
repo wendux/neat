@@ -12,12 +12,13 @@
     <script src="../dist/neat.plugin.util.min.js"></script>
 
     <script>
+        function t(){
+            console.log(this);
+        }
         $(function () {
 
             //事件委托,只绑定父元素,过滤li
-            $("ul").on("click", "li", function () {
-                console.log(this);
-            })
+            $("ul").on("click", "li", t)
 
 //            $("li").each(function (e, i) {
 //                $(e).text(i * 2);
