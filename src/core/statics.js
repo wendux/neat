@@ -40,7 +40,7 @@ export var method = {
         _run(proxy)
     },
     Deferred: deferred,
-    _cb:[]
+    options:{}
 }
 var testFuns=["Object","Function","String"]
 testFuns.forEach(e=>{

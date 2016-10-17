@@ -7,7 +7,6 @@ var webpack = require('webpack');
 module.exports = {
     entry: {
         neat: "./src/neat.js",
-        "neat.withtouch": "./src/neat.withtouch.js",
         "neat.plugin.util":"./src/extend/neat.plugin.util.js"
     },
     output: {

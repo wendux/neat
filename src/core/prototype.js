@@ -1,6 +1,7 @@
 /**
  * Created by du on 16/9/28.
  */
+import {Touch} from "./touch"
 
 export var prototype = {
 
@@ -16,6 +17,7 @@ export var prototype = {
         }
         return this
     },
+
     each(callback){
         this.every(function (el, idx) {
             return callback(el, idx) !== false
@@ -48,6 +50,13 @@ export var prototype = {
 
         } else {
             this.each(e => {
+                if(TouchEvents.indexOf(evt)!=-1){
+                    if(!e.__) {
+                        var touch = new Touch($(e), evt);
+                        touch.start();
+                        e.__=1;
+                    }
+                }
                 e.addEventListener(evt, selector);
             })
         }
@@ -74,10 +83,6 @@ export var prototype = {
             })
         }
         return this;
-    },
-
-    click(callback){
-        return this.on("click", callback);
     },
 
     eq(index){
@@ -192,6 +197,7 @@ export var prototype = {
     find(selector){
         return $(selector, this[0]);
     },
+
     append(content){
         var to = $(content);
         return this.each(e=> {
@@ -200,6 +206,7 @@ export var prototype = {
             })
         })
     },
+
     appendTo(s){
         $(s).eq(0).append(this);
         return this;
@@ -211,20 +218,21 @@ export var prototype = {
             t.parent()[0].insertBefore(e, t[0]);
         })
     },
+
     remove(){
         this.each(e=> {
             $(e).parent()[0].removeChild(e);
         })
     },
+
     trigger(event){
         var evt = document.createEvent('HTMLEvents');
-        // initEvent接受3个参数：
-        // 事件类型，是否冒泡，是否阻止浏览器的默认行为
         evt.initEvent(event, true, true);
         return this.each((e)=> {
             e.dispatchEvent(evt)
         })
     },
+
     animate(styles, speed){
         return $.Deferred((d)=> {
             var start = {};
@@ -254,3 +262,11 @@ t.forEach(e=> {
         return $($.unique(t));
     }
 })
+
+//注册touch事件便捷函数
+var TouchEvents= ['swipe', 'swipeLeft', 'swipeRight', 'swipeUp', 'swipeDown', 'tap', 'longTap'];
+TouchEvents.forEach(function (eventName) {
+    prototype[eventName] = function () {
+        return this.on(eventName, arguments[0])
+    }
+});

@@ -2,12 +2,12 @@
  * Created by du on 16/9/29.
  */
 import {$} from "./core.js"
-export var Touch = function (target,event,options) {
+export var Touch = function (target,event) {
     this.target = target;
     this.e = event;
-    this.options=$.extend({x: 100, y: 50},options)
-};
 
+    this.options=$.extend({x: 100, y: 50,t:800}, $.options)
+};
 function _getEvent (e) {
     var events;
     if (e.changedTouches){
@@ -45,7 +45,7 @@ Touch.prototype.factory = function () {
     var x = Math.abs(this.te.x);
     var y = Math.abs(this.te.y);
     var t = this.te.d;
-    var s = this.status;
+    var s ;
     if (x < 5 && y < 5) {
         if (t < 300) {
             s = "tap"
@@ -54,18 +54,18 @@ Touch.prototype.factory = function () {
         }
     }
     else if (x > this.options.x && y < this.options.y ) {
-        if (t < 2000) {
+        if (t < this.options.t) {
             if (this.te.x > 0) {
-                s = "swipeLeft"
-            } else {
                 s = "swipeRight"
+            } else {
+                s = "swipeLeft"
             }
         } else {
             s = "swipe"
         }
 
     } else if (x < this.options.x && y > this.options.y) {
-        if (t < 2000) {
+        if (t < this.options.t) {
             if (this.te.y > 0) {
                 s = "swipeDown"
             } else {
@@ -75,7 +75,7 @@ Touch.prototype.factory = function () {
             s = "swipe"
         }
     }else if(x>this.options.x&&y>this.options.y){
-        if (t < 2000) {
+        if (t < this.options.t) {
             if (this.options.x < this.options.y){
                 if (this.te.y > 0) {
                     s = "swipeDown"
@@ -85,19 +85,18 @@ Touch.prototype.factory = function () {
             }
             else {
                 if (this.te.x > 0) {
-                    s = "swipeLeft"
-                } else {
                     s = "swipeRight"
+                } else {
+                    s = "swipeLeft"
                 }
             }
         }else{
             s = "swipe"
         }
     }
-    if (s == this.e) {
-        this.target.trigger(this.e);
-        return
-    }
+
+    this.target.trigger(s);
+
 }
 
 

@@ -10,7 +10,7 @@ neat是一个追求极致简洁 ，高效， 优雅，只为移动端的 javascr
 
 3.neat是继承自数组,所以neat对象可以使用所有原生数组的属性及方法,您完全可以把neat对象当成数组传递给其它函数
 
-4.neat更加简洁,优雅,高效,核心文件不足7k,包含touch事件的也不过8k左右.正是由于这一点,您再也不用纠结到项目到底是
+4.neat更加简洁,优雅,高效,总共8k左右(服务器启用gzip后仅3.4k).正是由于这一点,您再也不用纠结到项目到底是
 使用mvc还是dom操作框架了,有了neat之后,答案是:鱼于熊掌可以兼得.推荐使用neat+vue组合.
 
 **neat使用说明:**
@@ -18,9 +18,13 @@ neat是一个追求极致简洁 ，高效， 优雅，只为移动端的 javascr
 1.为了符合jquery开发者习惯,neat对象别名依然是$,如果$占用,请使用命名空间或直接使用neat调用(而非美元符),
 一般来说,如果您使用了neat则不必使用jquery或zepto,如果您非要这么做,额,我猜不透你的心思~.
 
-2.neat核心支持:Dom操作,Event,Ajax,动画,Promise/Deferred;提供可选的Touch模块.
+2.neat支持:Dom操作,Touch event,Ajax,动画,Promise/Deferred;
 
 3.neat支持插件,扩展方式请参考 neat.plugin.utils.js(兼容jquery扩展方式)
+
+4.neat支持的touch事件有:
+ 'swipe', 'swipeLeft', 'swipeRight', 'swipeUp', 'swipeDown', 'tap', 'longTap'
+ 注意:touch️事件的捕获时间间隔,和捕获距离用户可以通过 neat.options配置。具体参考后面文档。
 
 **和zepto对比**
 
@@ -34,14 +38,8 @@ zepto对jquery的兼容还是比较多的(有些本人觉得完全没必要),当
 
 src下为源代码文件,dist下为打包后的release文件,如果您只是想使用neat,请直接拷贝dist下需要的文件到您的项目,具体文件说明如下:
 
-1.neat.min.js是不包括touch事件的neat核心,如果您不需要touch事件,这个是最好的选择.
-
-2.neat.withtouch.min.js是包括touch事件的,支持的事件有:
- 'swipe', 'swipeLeft', 'swipeRight', 'swipeUp', 'swipeDown', 'tap', 'longTap', 'drag'
- 注意:touch️为方便函数,不支持同一个元素绑定多个touch事件,原因是,需要同一个元素支持多种touch操作的需求一般都是需要随时关注touch状态的,
- 这样就需要分别处理up,down,move,既然这样,原生的写法不正好么?
-
-3.neat.plugin.util.js 是neat的一个插件示例,如果您需要扩展neat,可以参考该文件实现.
+1.neat.min.js,neat压缩后的release文件.
+2.neat.plugin.util.js 是neat的一个插件示例,如果您需要扩展neat,可以参考该文件实现.
 
 如果你想修改源代码来定制neat,您需要在修改完成后,重新构建一下.构建方式如下:
 

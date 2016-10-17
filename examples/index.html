@@ -8,15 +8,16 @@
     <meta name="viewport" content="width=device-width,initial-scale=0.5,user-scalable=no"/>
     <meta name="keywords" content="Title">
     <meta name="description" content="小赢卡贷-邮箱登录">
-    <script src="../dist/neat.withtouch.min.js"></script>
+    <script src="../dist/neat.min.js"></script>
     <script src="../dist/neat.plugin.util.min.js"></script>
 
     <script>
-        function t(){
+        function t() {
             console.log(this);
         }
-        $(function () {
 
+        $(function () {
+            $("#d").tap(t);
             //事件委托,只绑定父元素,过滤li
             $("ul").on("click", "li", t)
 
@@ -24,18 +25,19 @@
 //                $(e).text(i * 2);
 //            })
 
-            $("#d").tap(function () {
-                var t = $(this);
-                //animate test
-                t.animate({opacity: 0, height: 0}, 200)
-                        .done(function () {
-                            t.hide();
-                        });
-            });
+//            $("#d").tap(function () {
+//                console.log("tap")
+//                var t = $(this);
+//                //animate test
+//                t.animate({opacity: 0, height: 0}, 200)
+//                        .done(function () {
+//                            t.hide();
+//                        });
+//            });
 
             //ajax test
-            $(".btn").tap(function(){
-                $.get("").done(function(e){
+            $(".btn").tap(function () {
+                $.get("").done(function (e) {
                     alert(e);
                 })
             })
@@ -60,12 +62,20 @@
                 console.log("成功了,结果是:", data)
             }).fail(function (error) {
                 console.log("不开心,有任务失败了,失败信息是:", error)
-            }).fail(function(){
+            }).fail(function () {
                 console.log("fail!")
-            }).always(function(){
+            }).always(function () {
                 console.log("always")
             })
+            var evts = ['swipe','swipeLeft', 'swipeRight', 'swipeUp', 'swipeDown', 'tap', 'longTap', 'drag'];
+            evts.forEach(function (evt) {
+                $("#touch").on(evt, function () {
+                    console.log(evt)
+                })
+                //$("#touch")[evt](function(){console.log(evt)});
+            })
         })
+
 
     </script>
 </head>
@@ -77,7 +87,6 @@
 
     div {
         padding: 40px;
-        border-bottom: 1px #000000 solid
     }
 
     ul li {
@@ -106,13 +115,18 @@
 
 <ul>
     <li>1</li>
-    <li><div>2</div></li>
+    <li>
+        <div>2</div>
+    </li>
     <li class="t">3</li>
     <li>4</li>
     <li>5</li>
 </ul>
 
-<div  class="btn" style="padding: 15px; background: bisque; margin:20px; text-align: center"> ajax</div>
+<div class="btn" style="padding: 15px; background: bisque; margin:20px; text-align: center"> ajax</div>
+<div id="touch" style="height: 150px; margin-top: 20px; background:goldenrod; color: white">
+    <div style="margin: auto 0; text-align: center">touch 事件测试,请在此区域滑动,查看控制台输出</div>
+</div>
 
 
 </body>
