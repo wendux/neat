@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+  <title>touch_test</title>
+  <style>
+    *{margin: 0;padding: 0}
+    html,body{height: 100%;width: 100%}
+    div{width: 100%;height: 300px;background-color: #f7f7f7}
+    ul{background-color: lightskyblue}
+    li{background-color: lightgoldenrodyellow;padding: 10px;}
+    li:nth-child(even) {background-color: lightskyblue}
+    li:active{background-color: #ccc}
+  </style>
+
+  <script src="../dist/neat.min.js"></script>
+  <script src="../dist/neat.plugin.util.min.js"></script>
+  <script>
+    var log = console.log.bind(console);
+    $(function () {
+
+      $('#li').on('tap','p',function(){
+        log('p',event.type)
+      }).on('tap',function () {
+        log('li',event.type)
+      }).on('longTap',function () {
+        log('li',event.type,'longTap只有在松手的时候才执行，应该是按住到一定的时间触发')
+      });
+
+      document.querySelector("#div").addEventListener('touchstart',function () {
+//        $("#li1").trigger('tap');
+        event.stopPropagation();
+      })
+    })
+
+
+  </script>
+</head>
+<body>
+<div id="div">
+  <ul id="ul">
+    <li id="li"><p>选择器中的tap不触发</p></li>
+    <li id="li1"><p id="p">2222222</p></li>
+    <li>333333</li>
+  </ul>
+</div>
+
+</body>
+</html>
