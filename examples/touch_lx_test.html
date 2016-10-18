@@ -13,27 +13,23 @@
     li:nth-child(even) {background-color: lightskyblue}
     li:active{background-color: #ccc}
   </style>
-
   <script src="../dist/neat.min.js"></script>
-  <!--<script src="../src/core/touch_lx.js"></script>-->
   <script>
     var log = console.log.bind(console);
     $(function () {
 
-      $('#ul').on('tap','p',function () {
-        log('longTap','p',event)
-      }).on('swipe swipeLeft swipeRight swipeUp swipeDown',function (event) {
-        log('ul',event.type);//swipe只要滑动都触发
-      });
-      var swipe=['swipe','swipeLeft', 'swipeRight', 'swipeUp', 'swipeDown'];
-      swipe.forEach(function (type) {
-        $('#ul').on(type,function () {
-          log(event.type)
-        })
-      });
+//      $('#ul').on('tap','li',function () {
+//        log('tap',this)
+//      });
+//      var swipe=['swipe','swipeLeft', 'swipeRight', 'swipeUp', 'swipeDown'];
+//      swipe.forEach(function (type) {
+//        $('#ul').on(type,function () {
+//          log(event.type)
+//        })
+//      });
       //tap会在第一时间执行，如果你要在同一个dom上绑定单击事件和双击事件的话，可以是使用singleTap，
-      //和doubleTap的组合，这样在触发双击的时候就不会触发单击事件，事件的名称与Zepto一致
-      var tap=['tap','longTap','doubleTap','singleTap'];
+      //和doubleTap的组合，这样在触发双击的时候就不会触发单击事件.
+      var tap=['doubleTap','singleTap'];
       tap.forEach(function (type) {
         $('li').on(type,function (event) {
           log(event.type);//参数不传的话，event.type会成为touchend
