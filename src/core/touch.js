@@ -5,18 +5,17 @@ import {$} from "./core.js"
 export var Touch = function (target,event) {
     this.target = target;
     this.e = event;
-
     this.options=$.extend({x: 100, y: 50,t:800}, $.options)
 };
 function _getEvent (e) {
-    var events;
-    if (e.changedTouches){
-        events = e.changedTouches[0];
+    var touchs=e.changedTouches;
+    if (touchs){
+        e= e.touchs[0];
     }
     else {
-        events = e.originalEvent.touches[0];
+        e= e.targetTouches[0]
     }
-    return events
+    return e;
 }
 Touch.prototype.start = function () {
     var self = this;
@@ -27,10 +26,10 @@ Touch.prototype.start = function () {
     self.target.on("touchmove", function (event) {
         var temp = _getEvent(event);
         self.tm = {x: temp.pageX, y: temp.pageY};
-        if (self.e == "drag") {
-            self.target.trigger(self.e, self.tm);
-            return
-        }
+        //drag事件是个鸡肋,不支持
+        //if (self.e == "drag") {
+        //    $(event.target).trigger(self.e, self.tm);
+        //}
     });
     self.target.on("touchend", function () {
         if (!self.tm) {
@@ -94,9 +93,7 @@ Touch.prototype.factory = function () {
             s = "swipe"
         }
     }
-
-    this.target.trigger(s);
-
+    $(event.target).trigger(s);
 }
 
 
