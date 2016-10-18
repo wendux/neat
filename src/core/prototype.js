@@ -50,13 +50,13 @@ export var prototype = {
 
         } else {
             this.each(e => {
-                if(TouchEvents.indexOf(evt)!=-1){
-                    if(!e.__) {
-                        var touch = new Touch($(e), evt);
-                        touch.start();
-                        e.__=1;
-                    }
-                }
+                // if(TouchEvents.indexOf(evt)!=-1){
+                //     if(!e.__) {
+                //         var touch = new Touch($(e), evt);
+                //         touch.start();
+                //         e.__=1;
+                //     }
+                // }
                 e.addEventListener(evt, selector);
             })
         }
@@ -261,12 +261,12 @@ t.forEach(e=> {
         })
         return $($.unique(t));
     }
-})
+});
 
 //注册touch事件便捷函数
-var TouchEvents= ['swipe', 'swipeLeft', 'swipeRight', 'swipeUp', 'swipeDown', 'tap', 'longTap'];
-TouchEvents.forEach(function (eventName) {
-    prototype[eventName] = function () {
-        return this.on(eventName, arguments[0])
-    }
-});
+// var TouchEvents= ['swipe', 'swipeLeft', 'swipeRight', 'swipeUp', 'swipeDown', 'tap', 'longTap'];
+// TouchEvents.forEach(function (eventName) {
+//     prototype[eventName] = function () {
+//         return this.on(eventName, arguments[0])
+//     }
+// });
