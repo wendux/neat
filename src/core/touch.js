@@ -2,7 +2,7 @@
  * Created by liux on 2016/10/17.
  */
 import {$} from "./core.js"
-var doubleTapEl, singleTimer, longTapTimer;
+var doubleTap ={}, singleTimer, longTapTimer;
 var TapD = 7, SwipeD = 10, DoubleTapDelay = 300, LongTapDelay = 500, TapTimeout = 1000, TouchTimeout = 2000;
 function swipeDirection(x1, x2, y1, y2) {
     return Math.abs(x1 - x2) >=
@@ -26,16 +26,17 @@ $(function () {
             return
         } else if (range < TapD && delay < TapTimeout) {//按住超过1s取消所有tap类型的事件
             el.trigger('tap');
-            if (delay < DoubleTapDelay) {
-                if (el[0] === doubleTapEl) {
-                    doubleTapEl = null;
+            if(delay < DoubleTapDelay){
+                if(el[0] === doubleTap.el && (Date.now()-doubleTap.startT) < 300){
+                    doubleTap = {};
                     el.trigger('doubleTap');
                     clearTimeout(singleTimer);
-                } else {
-                    doubleTapEl = el[0];
+                }else {
+                    doubleTap.el = el[0];
+                    doubleTap.startT = startTime;
                     singleTimer = setTimeout(function () {
                         el.trigger('singleTap')
-                    }, DoubleTapDelay);
+                    },DoubleTapDelay);
                 }
             }
         }
@@ -61,7 +62,7 @@ $(function () {
             endTime = Date.now();
             touchType();
         })
-        .on('touchcanle', function () {
+        .on('touchcancel', function () {
             if (!el || e.target !== el[0])return;
             clearTimeout(longTapTimer)
         });
