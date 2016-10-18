@@ -23,8 +23,20 @@ neat是一个追求极致简洁 ，高效， 优雅，只为移动端的 javascr
 3.neat支持插件,扩展方式请参考 neat.plugin.utils.js(兼容jquery扩展方式)
 
 4.neat支持的touch事件有:
- 'swipe', 'swipeLeft', 'swipeRight', 'swipeUp', 'swipeDown', 'tap', 'longTap'
- 注意:touch️事件的捕获时间间隔,和捕获距离用户可以通过 neat.options配置。具体参考后面文档。
+ 应项目作者要求，添加事件部分自述：
+ 'swipe', 'swipeLeft', 'swipeRight', 'swipeUp', 'swipeDown', 'tap', 'longTap', 'singleTap', 'doubleTap'
+ tap:第一时间触发，不会有延时
+ doubleTap: 在300ms内单击两次触发，如果有注册tap，tap也会触发
+ singleTap: 单击后等待300ms没有再次单击，再触发。（在同一个dom上需要，同时绑定单击和双击的时候使用）
+ longTap：长按500ms后触发
+ swipe：滑动10px以上距离触发，不论什么方向
+
+ 为了解决tap的300ms延迟引入singleTap事件，因为大多数情况下我们使用的是tap事件，为了保证tap立即执行，
+ 并且解决双击事件与单击事件在同一个元素上绑定的情况，在此情况下使用singleTap，singleTap会等待300ms如果没有，
+ 双击事件才触发。
+
+ 注意: 如果在事件对象的父级上阻止了原生事件的冒泡，则touch事件不能触发。（见examples/touch.html）
+ touch️事件的捕获时间间隔,和捕获距离用户可以通过 neat.options配置。具体参考后面文档。
 
 **和zepto对比**
 
