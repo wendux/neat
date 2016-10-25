@@ -10,32 +10,41 @@ function swipeDirection(x1, x2, y1, y2) {
 }
 $(function () {
     var el, startTime, endTime, startX, startY, endX, endY;
-
     function Range() {
         return Math.max(Math.abs(endX - startX), Math.abs(endY - startY));
     }
+    function trigger(name){
+        el.trigger(name);
+        var t=name.toLowerCase();
+        if (name!=t){
+            el.trigger(t)
+        }
 
+    }
     function touchType() {
         var delay = endTime - startTime,
             range = Range();
         clearTimeout(longTapTimer);
         if (delay > TouchTimeout)return;//按住的时间超过2s取消所有事件
         if (range > SwipeD) {
-            el.trigger('swipe');
-            el.trigger('swipe' + swipeDirection(startX, endX, startY, endY));
+            trigger('swipe');
+            trigger('swipe' + swipeDirection(startX, endX, startY, endY));
             return
         } else if (range < TapD && delay < TapTimeout) {//按住超过1s取消所有tap类型的事件
-            el.trigger('tap');
+            //tap与longTap互斥
+            if(delay<LongTapDelay){
+                trigger('tap');
+            }
             if(delay < DoubleTapDelay){
                 if(el[0] === doubleTap.el && (Date.now()-doubleTap.startT) < 300){
                     doubleTap = {};
-                    el.trigger('doubleTap');
+                    trigger('doubleTap');
                     clearTimeout(singleTimer);
                 }else {
                     doubleTap.el = el[0];
                     doubleTap.startT = startTime;
                     singleTimer = setTimeout(function () {
-                        el.trigger('singleTap')
+                        trigger('singleTap')
                     },DoubleTapDelay);
                 }
             }
@@ -49,7 +58,7 @@ $(function () {
             startX = endX = e.touches[0].pageX;
             startY = endY = e.touches[0].pageY;
             longTapTimer = setTimeout(function () {
-                if (Range() < TapD) el.trigger('longTap')
+                if (Range() < TapD) trigger('longTap')
             }, LongTapDelay);
         })
         .on('touchmove', function (e) {
