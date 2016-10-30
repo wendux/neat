@@ -19,7 +19,7 @@ export var prototype = {
 
     each(callback){
         this.every(function (el, idx) {
-            return callback(el, idx) !== false
+            return callback.call(el, el, idx) !== false
         })
         return this;
     },
@@ -59,7 +59,7 @@ export var prototype = {
         if ($.isString(selector)) {
             this.each(e => {
                 if (e._cb) {
-                    //遍历数组过程中要删除元素,故反向遍历
+                    //反向遍历删除元素
                     for (var i = e._cb.length - 1; i > -1; --i) {
                         var _stub = e._cb[i];
                         if (_stub.n == event + selector && _stub.f == callback) {
@@ -78,18 +78,20 @@ export var prototype = {
     },
 
     eq(index){
-        return $(this[index]);
+        return $(this[index])
+    },
+    first(){
+        return $(this.shift());
     },
 
     last(){
         return $(this.pop());
     },
-
     add(o){
-        [].push.apply(this, $(o));
-        return this;
+        var t = this.slice(0);
+        t.push.apply(t, $(o));
+        return $(t);
     },
-
     text(s, type){
         type = type || "textContent";
         if (s) {
@@ -97,7 +99,7 @@ export var prototype = {
                 e[type] = s;
             })
         } else {
-            type = this[0][type];
+            type = this[0] ? this[0][type] : "";
         }
         return type;
     },
@@ -111,7 +113,7 @@ export var prototype = {
         this.each(e=> {
             t.push.apply(t, e.childNodes);
         });
-        return $($.unique(t).filter(e=> {
+        return $(t.filter(e=> {
             return e.nodeType == 1
         }));
     },
@@ -125,10 +127,9 @@ export var prototype = {
         }
 
         if (JSON.stringify(t) != "{}") {
-            var s = ["height", "width", "fontSize", "top", "left", "right", "bottom"]
-            s.forEach(e=> {
-                t[e] = t[e] && parseFloat(t[e]) + "px";
-            })
+            //$.autoFix.forEach(e=> {
+            //    t[e] = t[e] && parseFloat(t[e]) + "px";
+            //})
             return this.each(e=> {
                 $.extend(e.style, t);
             })
@@ -150,13 +151,17 @@ export var prototype = {
     },
 
     attr(name, value){
+
         if (value != undefined) {
             return this.each(e=> {
                 e.setAttribute(name, value)
             })
         } else {
-            return this[0] && this[0].getAttribute(name);
+            return this[0] && this[0].getAttribute(name) || "";
         }
+    },
+    val(value){
+        return this.attr("value", value)
     },
 
     removeAttr(name){
@@ -187,16 +192,25 @@ export var prototype = {
     },
 
     find(selector){
-        return $(selector, this[0]);
+        var t = $()
+        this.each(e=> {
+            var list = e.querySelectorAll(selector)
+            list && t.push.apply(t, list)
+        })
+        return $(t)
     },
 
     append(content){
-        var to = $(content);
-        return this.each(e=> {
-            to.each(x=> {
+        return this.each((e,index)=> {
+            if (index>0
+                &&($.isObject(content)|| $.trim(content)[0]!='<')) {
+                return false;
+            }
+            $(content).each(x=> {
                 e.appendChild(x);
             })
         })
+
     },
 
     appendTo(s){
@@ -207,12 +221,12 @@ export var prototype = {
     before(ref){
         var t = $(ref);
         return this.each(e=> {
-            t.parent()[0].insertBefore(e, t[0]);
+            t.parent()[0].insertBefore(e, t[0])
         })
     },
 
     remove(){
-        this.each(e=> {
+        return this.each(e=> {
             $(e).parent()[0].removeChild(e);
         })
     },
@@ -226,6 +240,7 @@ export var prototype = {
     },
 
     animate(styles, speed){
+        speed=speed||500
         return $.Deferred((d)=> {
             var start = {};
             for (var k in styles) {
@@ -236,21 +251,29 @@ export var prototype = {
                     this.css(i, start[i] + t / speed * (styles[i] - start[i]))
                 }
                 if (t == speed) {
-                    d.resolve()
+                    d.resolve(this)
                 }
             })
         }).promise();
     }
 }
 
-var t = ["parentElement", "previousSibling", "nextSibling"]
+var t = ["parentElement", "previousElementSibling", "nextElementSibling"]
 t.forEach(e=> {
     var i = !e.lastIndexOf("par") ? 6 : 4;
     prototype[e.substr(0, i)] = function () {
         var t = [];
         this.each(ele=> {
-            t.push(ele[e]);
+             if(ele[e]) {
+                 t.push(ele[e]);
+             }
         })
-        return $($.unique(t));
+        return $(t);
     }
 });
+var touch = ["click", "tap", "longTap", "singleTap", "doubleTap", "swipe", "swipeLeft", "swipeRight", "swipeUp", "swipeDown"]
+touch.forEach(e=> {
+    prototype[e] = function (cb) {
+        return this.on(e, cb);
+    }
+})

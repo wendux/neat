@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>neat animate</title>
+    <script src="../dist/neat.min.js"></script>
+</head>
+<style>
+    svg {
+        overflow: visible
+    }
+</style>
+<script>
+
+</script>
+<body>
+<svg id="svgmapctrl" version="1.1" style=" position:relative"
+     xmlns="http://www.w3.org/2000/svg">
+    <path d="M26.360389693210706 153.63961030678928 A90 90 0 1 1 153.63961030678928 153.63961030678928 " fill="#FFF"
+          stroke="#ccc" stroke-linecap='round' stroke-width="8"/>
+    <path id="path1" d="M45 167.942 A90 90 0 1 1 135 167.942 " fill="#FFF" stroke="green" stroke-width="8"
+          stroke-linecap='round'/>
+    <text style="fill:black" font-size="30" font-family="LiSu " x="60" y="100" width="200" height="30">排名</text>
+</svg>
+
+<script>
+
+    function getP(r, de_th, per) {
+        var a = ((360 - de_th) * (1 - per) - (180 - de_th) / 2) / 360 * 2 * Math.PI
+        var x = r * Math.cos(a) + r;
+        var h = r * Math.cos(de_th / 360 * Math.PI)
+        var y = r * Math.sin(a) + h
+        return {x: x, y: r + h - y, l: per * (360 - de_th) > 180 ? 1 : 0}
+    }
+    var R=90
+    var speed=1000;
+    var t = getP(R, 90, 0);
+    var ds = "M" + t.x + " " + t.y + " A" + R + " " + R + " 0 ";
+    var circle = $("#path1")
+    $.animate(speed, {per: 2 / 5, ds: "M" + t.x + " " + t.y + " A" + R + " " + R + " 0 "}, function (t, argv) {
+        //var t1=getP(R,90,a.per*t/1000)  //匀速
+        var t_e = Math.sqrt(argv.per / 3)
+        // var t1=getP(R,90,(t*t_e/600)*(t*t_e/600)*3) //匀加速
+        var v0 = t_e * 6;
+        //匀减速
+        var t1 = getP(R, 90, v0 * (t * t_e / speed) - (t * t_e / speed) * (t * t_e / speed) * 3)
+        circle.attr("d", argv.ds + t1.l + " 1 " + t1.x + " " + t1.y);
+
+    })
+
+
+</script>
+
+</body>
+</html>

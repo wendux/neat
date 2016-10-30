@@ -12,11 +12,13 @@ export var method = {
         }
         return target;
     },
+
+    //要支持dom数组
     unique(arrayLike){
-        arrayLike.sort();
+        if(!arrayLike.length) return arrayLike;
         var res = [arrayLike[0]];
         for (var i = 1; i < arrayLike.length; i++) {
-            if (arrayLike[i] !== res[res.length - 1]) {
+            if (res.indexOf(arrayLike[i])<0 ) {
                 res.push(arrayLike[i]);
             }
         }
@@ -29,7 +31,9 @@ export var method = {
         if(speed<30) speed=30;
         var f=callback||argvs
         var _run=requestAnimationFrame;
-        argvs=callback||undefined;
+        if(!callback){
+            argvs=undefined
+        }
         function proxy(){
             var c=new Date-start;
             if(c>=speed) { f(speed,argvs); return;}
@@ -39,7 +43,17 @@ export var method = {
         var start=new Date;
         _run(proxy)
     },
+    qs(e){
+        return qs[e];
+    },
+    //autoFix:["height", "width", "fontSize", "top", "left", "right", "bottom"],
     Deferred: deferred
+}
+var qs = [];
+var a = decodeURI(location.search.substr(1)).split('&');
+for (var b = 0; b < a.length; ++b) {
+    var temp = a[b].split('=');
+    qs[temp[0]] = temp[1] ? temp[1] : null;
 }
 var testFuns=["Object","Function","String"]
 testFuns.forEach(e=>{

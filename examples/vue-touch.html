@@ -27,7 +27,7 @@
 <div id="example" @tap="onTouch('tab div')"  @longTap="onTouch('onLongTap div')" @swipeLeft="onTouch('swipeLeft div')">
     <child id="child-template"
            @child-click="childClick"
-           @tap="onTouch('tab child ,根据vue设计,父组件中不能直接绑定其子组件原生事件,而只能绑定其子组件自定义事件,需使用.native修饰符号,所以此处永远执行不到')"
+           @tap="onTouch('tab child ,根据vue设计,父组件中不能直接绑定其子组件原生事件,而只能绑定其子组件自定义事件,要绑定原生事件需使用.native修饰符号,所以此处永远执行不到')"
            @tap.native="onTouch('tab child native')"></child>
     i am div
 </div>
@@ -60,6 +60,5 @@
         }
     })
 </script>
-
 </body>
 </html>

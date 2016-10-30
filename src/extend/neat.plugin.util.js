@@ -35,36 +35,6 @@
         return qs[e];
     };
 
-    //在所有异步执行后回调
-    $.all = function () {
-        var args = arguments;
-        var result = [];
-        var count = args.length;
-        return $.Deferred(function (d) {
-            for (var i = 0; i < args.length; ++i) {
-                +function (i) {
-                    var o = args[i];
-                    //不是Deferred对象则直接执行
-                    if (!o.promise) {
-                        o.call(d);
-                        if (--count == 0) {
-                            d.resolve(result);
-                        }
-                    } else {
-                        o.promise().done(function (data) {
-                            result[i] = data;
-                            if (--count == 0) {
-                                d.resolve(result);
-                            }
-                        }).fail(function (err) {
-                            d.reject(err);
-                        });
-                    }
-                }(i);
-            }
-        }).promise();
-    };
-
     //扩展neat原型
     $.extend($.fn, {
         fadeOut: function (speed) {
