@@ -1,0 +1,94 @@
+<html>
+<head lang="zh-cmn-Hans">
+    <meta charset="UTF-8">
+    <title>promise</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=0.5,user-scalable=no"/>
+    <meta name="keywords" content="neat promise">
+    <script src="../dist/neat.min.js"></script>
+
+    <script>
+        $(function () {
+            function  testAll(){
+                //all参数可以是deferred,也可以是promise
+                $.all(
+                        $.Deferred(function (deferred) {
+                            setTimeout(function () {
+                                console.log("我是第一个deferred,执行结果是dd");
+                                deferred.resolve("dd");
+                            }, 1000);
+                        }),
+                        $.Deferred(function (deferred) {
+                            setTimeout(function () {
+                                console.log("我是第二个deferred,执行结果是xx");
+                                deferred.resolve("xx");
+                            }, 500);
+                        }).promise()
+                ).done(function (data) {
+                    console.log("好开心,所有任务都成功了,结果是:", data)
+                }).done(function (data) {
+                    console.log("成功了,结果是:", data)
+                }).fail(function (error) {
+                    console.log("不开心,有任务失败了,失败信息是:", error)
+                }).fail(function () {
+                    console.log("fail!")
+                }).always(function () {
+                    console.log("always")
+                })
+            }
+
+            function testThen(){
+                $.get("")
+                .then(function(d){
+                    console.log(d)
+                    return "first result"
+                }).then(function(d){
+                    console.log(d)
+                    console.log("第二个异步请求开始");
+                    //我们随便输入些东西,故意制造一个语法错误,看catch是否能正确执行,比如xx
+                    //xx
+                    return $.Deferred(function (deferred) {
+                        setTimeout(function () {
+                            console.log("第二个异步任务结束,结果是dd");
+                            deferred.resolve("dd");
+                        }, 1000);
+                    })
+                }).then(function(d){
+                   console.log(d)
+                }).done(function(d){
+                    //上一个then没有返回数据,所以d应该是undefined.
+                    console.log("done",d);
+                }).catch(function(e){
+                    console.log(e)
+                })
+            }
+
+            $(".btn").first().click(function () {
+                testAll()
+            }).next().click(function(){
+                testThen()
+            })
+
+        })
+
+
+    </script>
+</head>
+<style>
+    .btn{
+        transition: all .4s;
+        padding: 15px; background: bisque; margin:20px; text-align: center
+    }
+    .btn:hover{
+        background: #ffe4a2;
+    }
+</style>
+
+
+<div class="btn">测试all(控制台查看结果)</div>
+<div class="btn">测试then(控制台查看结果)</div>
+
+
+</body>
+</html>

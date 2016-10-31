@@ -1,0 +1,37 @@
+<html>
+<head lang="zh-cmn-Hans">
+    <meta charset="UTF-8">
+    <title>plugin test</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=0.5,user-scalable=no"/>
+    <meta name="keywords" content="plugin">
+    <script src="../dist/neat.min.js"></script>
+    <script src="../dist/neat.plugin.util.js"></script>
+
+    <script>
+        $(function () {
+            $(".btn").click(function () {
+                $.jsonp("jsonp.php?callback=",function(data){
+                    console.log(data);
+                })
+            })
+        })
+
+
+    </script>
+</head>
+<style>
+    .btn{
+        transition: all .4s;
+        padding: 15px; background: bisque; margin:20px; text-align: center
+    }
+    .btn:hover{
+        background: #ffe4a2;
+    }
+</style>
+
+
+<div class="btn">jsonp test</div>
+</body>
+</html>
