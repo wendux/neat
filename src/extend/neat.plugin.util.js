@@ -26,20 +26,22 @@
     $.extend($.fn, {
         fadeOut: function (speed) {
             var s = this;
-            return s.animate({opacity: 0}, speed || 800)
+            s.animate({opacity: 0}, speed || 800)
                 .done(function () {
                     s.hide();
                 });
+            return s;
         },
         fadeIn: function (speed) {
-            return this.show().animate({opacity: 1}, speed || 800);
+            this.show().animate({opacity: 1}, speed || 800);
+            return this;
         }
     });
 
     //example/plugin.html中有使用示例
     $.jsonp = function (url, callback) {
         var tag = "neatJsonp";
-        if (!$[tag]) {
+        if (![tag]) {
             $[tag] = 1;
         }
         var cbName = tag + $[tag]
