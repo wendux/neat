@@ -3,7 +3,6 @@
  */
 import {$} from "./core.js"
 export var prototype = {
-
     ready: function (callback) {
         if (/complete|loaded|interactive/.test(document.readyState)
             && document.body) {
@@ -81,11 +80,11 @@ export var prototype = {
         return $(this[index])
     },
     first(){
-        return $(this.shift());
+        return $(this[0]);
     },
 
     last(){
-        return $(this.pop());
+        return $(this[this.length-1]);
     },
     add(o){
         var t = this.slice(0);
@@ -160,6 +159,7 @@ export var prototype = {
             return this[0] && this[0].getAttribute(name) || "";
         }
     },
+
     val(value){
         return this.attr("value", value)
     },
@@ -258,8 +258,8 @@ export var prototype = {
     }
 }
 
-var t = ["parentElement", "previousElementSibling", "nextElementSibling"]
-t.forEach(e=> {
+;["parentElement", "previousElementSibling", "nextElementSibling"]
+.forEach(e=> {
     var i = !e.lastIndexOf("par") ? 6 : 4;
     prototype[e.substr(0, i)] = function () {
         var t = [];
@@ -270,10 +270,18 @@ t.forEach(e=> {
         })
         return $(t);
     }
-});
-var touch = ["click", "tap", "longTap", "singleTap", "doubleTap", "swipe", "swipeLeft", "swipeRight", "swipeUp", "swipeDown"]
-touch.forEach(e=> {
+})
+
+;["click", "tap", "longTap", "singleTap", "doubleTap", "swipe", "swipeLeft", "swipeRight", "swipeUp", "swipeDown"]
+.forEach(e=> {
     prototype[e] = function (cb) {
         return this.on(e, cb);
     }
 })
+
+;["map","filter"].forEach(e=>{
+    prototype[e]=function(){
+        return $([][e].apply(this,arguments))
+    }
+})
+

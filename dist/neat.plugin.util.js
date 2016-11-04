@@ -35,13 +35,22 @@
         fadeIn: function (speed) {
             this.show().animate({opacity: 1}, speed || 800);
             return this;
+        },
+        //包括通过css伪类选择器添加的内容
+        allText:function(){
+            var el=this[0]
+            var _text=function (pe){
+                return  getComputedStyle(el,pe)
+                    .getPropertyValue('content').replace(/"/g,"")
+            }
+            return el&&_text(":before")+$(this).text()+_text(":after")
         }
     });
 
     //example/plugin.html中有使用示例
     $.jsonp = function (url, callback) {
         var tag = "neatJsonp";
-        if (![tag]) {
+        if (!$[tag]) {
             $[tag] = 1;
         }
         var cbName = tag + $[tag]

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head lang="zh-cmn-Hans">
     <meta charset="UTF-8">
@@ -7,23 +8,28 @@
     <meta name="viewport" content="width=device-width,initial-scale=0.5,user-scalable=no"/>
     <meta name="keywords" content="neat promise">
     <script src="../dist/neat.min.js"></script>
+    <!--<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>-->
 
     <script>
         $(function () {
-            function  testAll(){
+            function testAll() {
                 //all参数可以是deferred,也可以是promise
                 $.all(
+                       // $.get(""),
+
                         $.Deferred(function (deferred) {
                             setTimeout(function () {
-                                console.log("我是第一个deferred,执行结果是dd");
+                                console.log("我是第个deferred,执行结果是dd");
                                 deferred.resolve("dd");
                             }, 1000);
                         }),
+
                         $.Deferred(function (deferred) {
                             setTimeout(function () {
                                 console.log("我是第二个deferred,执行结果是xx");
                                 deferred.resolve("xx");
                             }, 500);
+
                         }).promise()
                 ).done(function (data) {
                     console.log("好开心,所有任务都成功了,结果是:", data)
@@ -38,12 +44,12 @@
                 })
             }
 
-            function testThen(){
+            function testThen() {
                 $.get("")
-                .then(function(d){
-                    console.log(d)
-                    return "first result"
-                }).then(function(d){
+                        .then(function (d) {
+                            console.log(d)
+                            return "first result"
+                        }).then(function (d) {
                     console.log(d)
                     console.log("第二个异步请求开始");
                     //我们随便输入些东西,故意制造一个语法错误,看catch是否能正确执行,比如xx
@@ -54,20 +60,39 @@
                             deferred.resolve("dd");
                         }, 1000);
                     })
-                }).then(function(d){
-                   console.log(d)
-                }).done(function(d){
+                }).then(function (d) {
+                    console.log(d)
+                }).done(function (d) {
                     //上一个then没有返回数据,所以d应该是undefined.
-                    console.log("done",d);
-                }).catch(function(e){
-                    console.log(e)
+                    console.log("done", d);
+                }).catch(function (e) {
+                    console.warn("发生错误了:" + e.message + e.stack);
+                })
+            }
+
+            function testProgress() {
+                var i = 0;
+                $.Deferred(function (deferred) {
+                    var t = setInterval(function () {
+                        deferred.notify(i);
+                        if (i++ == 100) {
+                            clearInterval(t)
+                            deferred.resolve("加载完成")
+                        }
+                    }, 25);
+                }).promise().progress(function (progress) {
+                    console.log(progress + "%")
+                }).done(function (d) {
+                    console.log(d)
                 })
             }
 
             $(".btn").first().click(function () {
                 testAll()
-            }).next().click(function(){
+            }).next().click(function () {
                 testThen()
+            }).next().click(function (progress) {
+                testProgress()
             })
 
         })
@@ -76,19 +101,26 @@
     </script>
 </head>
 <style>
-    .btn{
+    .btn {
         transition: all .4s;
-        padding: 15px; background: bisque; margin:20px; text-align: center
+        padding: 15px;
+        background: bisque;
+        margin: 20px;
+        text-align: center
     }
-    .btn:hover{
+
+    .btn:hover {
         background: #ffe4a2;
+    }
+    .btn:after{
+        content:"(控制台查看结果)"
     }
 </style>
 
 
-<div class="btn">测试all(控制台查看结果)</div>
-<div class="btn">测试then(控制台查看结果)</div>
-
+<div class="btn">测试all</div>
+<div class="btn">测试then</div>
+<div class="btn">测试progress</div>
 
 </body>
 </html>

@@ -7,14 +7,7 @@ function formatParams(data) {
     var arr = [];
     var _encode = encodeURIComponent;
     for (var name in data) {
-        arr.push(_encode(name) + "=" + _encode(data[name]));
-    }
-    return arr;
-}
-function formatParams(data) {
-    var arr = [];
-    for (var name in data) {
-        arr.push(encodeURIComponent(name) + "=" + encodeURIComponent(data[name]));
+        arr.push(_encode(name) + "=" +_encode(data[name]));
     }
     return arr.join("&");
 }
@@ -25,21 +18,25 @@ export var ajax = {
             options = $.extend({type: "GET"}, options);
             var params = formatParams(data);
             xhr = new XMLHttpRequest();
+            //已废弃,通过$.ajax().xhr.onxx直接设置
             //处理用户提供的额外的回调,如onprogress,onabort
-            for (var callback in options) {
-                if (callback.indexOf("on") == 0) {
-                    xhr[callback] = options[callback]
-                }
-            }
-            xhr.onreadystatechange = function () {
+            //for (var callback in options) {
+            //    if (callback.indexOf("on") == 0) {
+            //        xhr[callback] = options[callback]
+            //    }
+            //}
+            xhr.onreadystatechange =()=> {
                 if (xhr.readyState == 4) {
                     var status = xhr.status;
                     if (status >= 200 && status < 300) {
-                        defer.resolve(xhr.responseText);
+                        defer.resolve(xhr.responseText,xhr);
                     } else {
-                        defer.reject(xhr);
+                        defer.reject(status,xhr);
                     }
                 }
+            }
+            xhr.onprogress=(event)=>{
+                defer.notify(event,xhr)
             }
 
             if (options.type.toUpperCase() == "GET") {
@@ -57,7 +54,6 @@ export var ajax = {
         return promise;
     },
     get(url, data){
-        //{"accept", "application/json, text/javascript, */*; q=0.01"}
         return this.ajax(url, data);
     },
     post(url, data){
