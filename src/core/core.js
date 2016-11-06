@@ -31,6 +31,7 @@ var neat = function (selector, context) {
                 t = parseDom(selector);
             }
         } else if ($.isObject(selector)
+            //window also has length prop.
             && selector != window
             && selector.length !== undefined) {
             //ArrayLike object
@@ -40,12 +41,13 @@ var neat = function (selector, context) {
             t = [selector];
         }
         //$._b指向上一个结果集
-        if (t[0] == document||t[0]== window){
-            $._b = $();
-        }else {
-            this._b = $._b;
-            $._b = this;
-        }
+
+    }
+    if (t[0] == document||t[0]== window){
+        $._b =null;
+    }else {
+        this._b = $._b;
+        $._b = this;
     }
     [].push.apply(this, $.unique(t));
 

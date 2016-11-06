@@ -88,7 +88,9 @@ export var prototype = {
         },
         add(o){
             var t = this.slice(0);
+
             t.push.apply(t, $(o));
+            $._b=this
             return $(t);
         },
         text(s, type){
@@ -200,7 +202,7 @@ export var prototype = {
             return $(t)
         },
         end  () {
-            return this._b||$();
+            return this._b;
         },
 
         append(content){
