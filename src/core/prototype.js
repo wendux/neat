@@ -33,7 +33,7 @@ export var prototype = {
                         $(selector, e).each(el=> {
                             if (el == t || $("[_=_]", el).indexOf(t) != -1) {
                                 $(t).removeAttr("_");
-                                fun.call(el);
+                                fun.call(el,window.event);
                             }
                         })
                         //委托事件存根,解绑时会用
@@ -173,7 +173,9 @@ export var prototype = {
         },
 
         hasClass(cls) {
-            return !!this[0].className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
+            var first=this[0]
+            if(!(first&&first.className)) return false;
+            return !!first.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
         },
 
         addClass(cls) {
@@ -282,7 +284,12 @@ export var prototype = {
 ["click", "tap", "longTap", "singleTap", "doubleTap", "swipe", "swipeLeft", "swipeRight", "swipeUp", "swipeDown"]
     .forEach(e=> {
         prototype[e] = function (cb) {
-            return this.on(e, cb);
+            if(!cb){
+                this.trigger(e)
+            }else {
+                 this.on(e, cb);
+            }
+            return this;
         }
     })
 

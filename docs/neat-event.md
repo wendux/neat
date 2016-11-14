@@ -4,25 +4,18 @@ Neat事件处理和jQuery相似，主要提供on,off 两个核心方法，以及
 ## on(event,[cb,selector])
 
 - event: 事件名称，包括浏览器提供的标准的事件和 [neat touch事件](#neat-touch)。
-- cb(ele): 监听回调，ele为触发事件的dom。
+- cb(event): 监听回调，event为当前全局事件对象。
 
 on用于绑定事件，简单的例子如下:
 ```javascript
-$(document.body).on("click",function(ele){
+$(document.body).on("click",function(){
   alert($(this).text())
 })
 ```
 
-事件回调函数cb的参数ele和回调函数内部中的this都指向dom对象，如果你用es6箭头函数作为回调，**由于箭头函数没有上下文，所以此时this将是调用声明的上下文，而不在指向dom，所以此时只有ele为dom元素**。
+事件回调函数cb的回调函数中的this指向dom对象，如果你用es6箭头函数作为回调，**由于箭头函数没有上下文，所以此时this将是调用声明的上下文，而不在指向dom，所以此时只有ele为dom元素**。
 
-```javascript
-ECMAScript6
-$(document.body).on("click",(ele)=>{
-  //this为调用环境的上下文，不再指向dom
-  //alert($(this).text())
-   alert($(ele).text())
-})
-```
+
 
 **事件代理**
 
@@ -38,8 +31,7 @@ $(document.body).on("click",(ele)=>{
 我们要监听所有li的click事件，如果为每个li分别绑定click事件，这很不优雅！尤其当回调是一个匿名函数时，浏览器将创建大量闭包，一旦列表很大(比如一个无穷无尽的下拉刷新列表)，将会引起较大的性能和内存消耗。还有，对于动态插入的li，我们必须得动态的进行绑定click。此时事件代理便华丽登场！事件代理的思想是只绑定父元素，然后指定要代理的子元素，一旦子元素触发绑定的事件，子元素本身并不处理，而是将事件冒泡到父元素，由父元素中统一处理，如下：
 
 ```javascript
-$("ul").on("click","li",function(ele){
-  //this和ele指向li
+$("ul").on("click","li",function(e){
   alert($(this).text())
 })
 ```
@@ -47,7 +39,7 @@ $("ul").on("click","li",function(ele){
 # off(event,[cb,selector])
 事件解绑
 ```javascript
-function onClick(ele){console.log(ele)}
+function onClick(e){console.log(this)}
 //绑定click事件
 $('#id').on("click",onClick);
 //解绑
@@ -59,7 +51,7 @@ $('ul').off("click","li",onClick);
 ```
 下面实现一个只触发一次的事件回调：
 ```javascript
-function onClick(ele){
+function onClick(e){
   alert($(this).text())
   //解绑事件
   $(this).off("click",onClick)
