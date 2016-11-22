@@ -40,11 +40,14 @@ $("li")[1]
 20.before()
 21.remove
 22.parent()
-23.prev()
-24.next()
-25.first() 
-26.map()
-27.filter()
+23.parents()
+24.prev()
+25.next()
+26.first() 
+27.end()
+28.map()
+29.filter()
+
 ```
 
 假设有如下html文档，以下示例皆基于此文档
@@ -195,7 +198,15 @@ $("input").removeAttr("disabled")
 > $("li").hide()
 隐藏所有li
 ```
+**show用于显示hide方法隐藏的元素！下面的例子是不行的：**
+
+```javascript
+<div style="display:none">xx</div>
+>$("div").show() //错误，div不会显示
+```
+
 ## hasClass(className)
+
 - 功能：判断当前元素集的第一个元素是否有某个css 类
 - 返回值：有则返回ture，没有则返回false
 
@@ -299,6 +310,7 @@ $("input").removeAttr("disabled")
 结果：将input移除并返回 [input, input]
 ```
 ## parent()
+
 - 功能：获取当前元素集所有元素的直接父元素，
 - 返回值：父元素集合
 
@@ -306,7 +318,18 @@ $("input").removeAttr("disabled")
 > $("ul").parent()
 结果：[nav, section.box]
 ```
+## parents(selector)
+
+- 功能：获取当前元素集所有元素中第一个匹配selector的父元素，
+- 返回值：父元素集合
+
+```javascript
+> $("li").parents("section")
+结果：[section.box]
+```
+
 ## children()
+
 - 功能：获取当前元素集所有元素的直接子元素，
 - 返回值：子元素集合
 
@@ -315,6 +338,7 @@ $("input").removeAttr("disabled")
 结果：[meta, meta, script, title, ul]
 ```
 ## prev()
+
 - 功能：获取当前元素集所有元素的前一个同级元素，
 - 返回值：结果集
 
@@ -323,6 +347,7 @@ $("input").removeAttr("disabled")
 结果：[section.box] (第二个section)
 ```
 ## next()
+
 - 功能：获取当前元素集所有元素的后一个同级元素，
 - 返回值：结果集
 
@@ -331,6 +356,18 @@ $("input").removeAttr("disabled")
 结果：[input] 
 即：<input name="email" type="email" placeholder="input your email" value="xx@gmail.com"/>
 ```
+
+## end()
+
+- 功能：调用链结果集回退一次。
+- 返回值：上一次的结果集
+
+```java
+> $("section").find("li").end()
+结果：[section.box, section.box]
+```
+
+注：$("section")为调用链上第一个结果集，然后又查找其子元素中的li,此时结果集为[li, li]，然后调用end回退一次，则为之前$("section")的结果集
 
 ## map(callback)
 

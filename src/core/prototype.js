@@ -33,7 +33,7 @@ export var prototype = {
                         $(selector, e).each(el=> {
                             if (el == t || $("[_=_]", el).indexOf(t) != -1) {
                                 $(t).removeAttr("_");
-                                fun.call(el,window.event);
+                                fun.call(el, window.event);
                             }
                         })
                         //委托事件存根,解绑时会用
@@ -88,11 +88,28 @@ export var prototype = {
         },
         add(o){
             var t = this.slice(0);
-
             t.push.apply(t, $(o));
-            $._b=this
+            $._b = this
             return $(t);
         },
+
+        parents(selector){
+            var n = $(selector);
+            var t = [];
+            this.each(function (e) {
+                e = $(e).parent()
+                for (; e.length > 0;) {
+                    if (n.indexOf(e[0]) > -1) {
+                        t.push(e[0])
+                        break;
+                    }
+                    e = e.parent();
+                }
+            })
+            $._b=this;
+            return $(t);
+        },
+
         text(s, type){
             type = type || "textContent";
             if (s) {
@@ -141,7 +158,9 @@ export var prototype = {
 
         hide(){
             return this.each(e=> {
-                $(e).attr("od", $(e).css("display")).css("display", "none");
+                if($(e).css("display")!="none") {
+                    $(e).attr("od", $(e).css("display")).css("display", "none");
+                }
             })
         },
 
@@ -155,7 +174,11 @@ export var prototype = {
 
             if (value != undefined) {
                 return this.each(e=> {
-                    e.setAttribute(name, value)
+                    if (name == "value") {
+                        e.value = value
+                    } else {
+                        e.setAttribute(name, value)
+                    }
                 })
             } else {
                 return this[0] && this[0].getAttribute(name) || "";
@@ -163,7 +186,11 @@ export var prototype = {
         },
 
         val(value){
-            return this.attr("value", value)
+            if (!value) {
+                return this[0] ? this[0].value : "";
+            } else {
+                return this.attr("value", value)
+            }
         },
 
         removeAttr(name){
@@ -173,8 +200,8 @@ export var prototype = {
         },
 
         hasClass(cls) {
-            var first=this[0]
-            if(!(first&&first.className)) return false;
+            var first = this[0]
+            if (!(first && first.className)) return false;
             return !!first.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
         },
 
@@ -284,10 +311,10 @@ export var prototype = {
 ["click", "tap", "longTap", "singleTap", "doubleTap", "swipe", "swipeLeft", "swipeRight", "swipeUp", "swipeDown"]
     .forEach(e=> {
         prototype[e] = function (cb) {
-            if(!cb){
+            if (!cb) {
                 this.trigger(e)
-            }else {
-                 this.on(e, cb);
+            } else {
+                this.on(e, cb);
             }
             return this;
         }

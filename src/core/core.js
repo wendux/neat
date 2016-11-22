@@ -40,7 +40,6 @@ var neat = function (selector, context) {
             //一般对象
             t = [selector];
         }
-        //$._b指向上一个结果集
 
     }
     if (t[0] == document||t[0]== window){
