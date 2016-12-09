@@ -3,4 +3,6 @@
  */
 import {$} from "./core/core"
 import "./core/touch"
-window.$=window.neat=$
+module.exports = $;
+window.neat=window.$=undefined;
+

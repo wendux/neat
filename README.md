@@ -1,5 +1,7 @@
 # Neat项目说明
 
+**Neat npm插件已发布，commonJs下可以安装使用：npm install neat-js**
+
 Neat是一个追求极致简洁 、优雅、高效 ，只为现代浏览器（支持es5+）、移动端优先的 Javascript 库。
 
 Github 地址: [https://github.com/wendux/neat](https://github.com/wendux/neat) 。
@@ -52,15 +54,35 @@ vue核心也是一个view层，不包括数据获取和touch事件，neat正好�
 - examples下为示例.
 - docs下为文档
 
+## 如何使用
+
+您有两种方式可以使用neat:
+
+1. 引入neat.min.js文件,直接使用
+
+2. node环境下使用方式如下：
+
+   1. 安装neat npm插件
+
+   ```javascript
+   npm install neat-js 
+   ```
+
+   2. 引入neat模块
+
+   ```javascript
+   var $= require("neat-js")
+   $(function(){
+       console.log($("li"))
+   })
+   ```
+
 ## 修改源码&Rebuild
+
  1. 确定您已安装了node
  2. 安装webpack ``` npm install webpack -g ```
  3. 进入到源码目录安装依赖（仅首次需要）``` npm install```
  4. 打包 ```webpack```
-
-### NPM插件：
-
-😔 非常抱歉， 作者最近时间较忙，过一段时间在去提交给npm库。
 
 ## Bug report
 您可以在github上创建一个issue,或者直接email: duwen32767@163.com， Thanks！

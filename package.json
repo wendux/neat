@@ -13,7 +13,8 @@
     "email": "duwen32767@163.com"
   },
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "release":"node release.js"
   },
   "devDependencies": {
     "babel-core": "^6.14.0",

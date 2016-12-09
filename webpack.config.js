@@ -7,7 +7,8 @@ var webpack = require('webpack');
 module.exports = {
     entry: {
         neat: "./src/neat.js",
-        "neat.plugin.util":"./src/extend/neat.plugin.util.js"
+        "neat.plugin.util":"./src/extend/neat.plugin.util.js",
+        test:["./examples/test.js"]
     },
     output: {
         path: "./dist",
@@ -32,3 +33,5 @@ module.exports = {
         }),
     ]
 }
+
+
