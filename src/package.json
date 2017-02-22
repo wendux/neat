@@ -13,7 +13,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wendux/neat.git"
+    "url": "git+https://github.com/wendux/Neat.git"
   },
   "keywords": [
     "neat",
@@ -23,7 +23,7 @@
     "wendux"
   ],
   "bugs": {
-    "url": "https://github.com/wendux/neat/issues"
+    "url": "https://github.com/wendux/Neat/issues"
   },
   "homepage": "http://neat.dtworkroom.com"
 }

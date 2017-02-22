@@ -8,6 +8,7 @@ Github 地址: [https://github.com/wendux/neat](https://github.com/wendux/neat) 
 
 Neat 官网地址：[Neat.js官网](http://neat.dtworkroom.com) 
 
+
 ## Neat 简介
 
 Neat [ni:t] adj. 灵巧的， 整洁的，干净的。 Neat用jQuery 10%的代码量实现了其80%的功能，GZIP后不足4K，兼容大多数jQuery Api。Neat支持实现了ES5的浏览器, 完全支持移动端(IOS、Android)浏览器， 秉持移动端优先原则 , 支持Touch事件，同时桌面浏览器支持IE9+。Neat核心由 事件处理、AJAX、DOM操作、动画、Promise/Deferred五大模块组成, 并兼容jQuery插件系统, 大多数jQuery插件可以无修改或只需少量修改就可以移植到Neat上， 有着极强的扩展性。 小巧、灵活、高效、优雅是Neat的主要特点, 你完全可以将Neat和Vue等库结合使用。随着你对Neat的深入了解，我相信你会喜欢上它的。 Enjoy it !
