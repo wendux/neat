@@ -10,9 +10,9 @@ module.exports = {
     },
     output: {
         path: "./npm/dist",
-        filename: "[name].min.js",
+        filename: "[name].js",
         //umd放开
-        // libraryTarget: "umd",
+         libraryTarget: "umd",
     },
     module: {
         loaders: [
@@ -26,12 +26,12 @@ module.exports = {
         ]
     },
     plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-            sourceMap: true,
-            compress: {
-                warnings: true
-            }
-        }),
+        // new webpack.optimize.UglifyJsPlugin({
+        //     sourceMap: true,
+        //     compress: {
+        //         warnings: true
+        //     }
+        // }),
     ]
 }
 

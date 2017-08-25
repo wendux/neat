@@ -49,8 +49,9 @@ export var ajax = {
                 xhr.setRequestHeader(k, options.header[k])
             }
             xhr.send(params[0] ? params : null);
+            promise.xhr = xhr;
         }).promise();
-        promise.xhr = xhr;
+
         return promise;
     },
     get(url, data){

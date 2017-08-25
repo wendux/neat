@@ -11,41 +11,41 @@
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-
+/******/
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-
+/******/
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			exports: {},
 /******/ 			id: moduleId,
 /******/ 			loaded: false
 /******/ 		};
-
+/******/
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
-
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-
-
+/******/
+/******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-
+/******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-
+/******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-
+/******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
 /******/ })
@@ -55,32 +55,35 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
-
+	
 	var _core = __webpack_require__(1);
-
+	
 	__webpack_require__(6);
-
+	
+	//umd放开
 	/**
 	 * Created by du on 16/9/28.
 	 */
 	module.exports = _core.$;
-	window.neat = window.$ = undefined;
+	
+	//min包放开
+	//window.neat=window.$=$;
 
 /***/ }),
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
-
+	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 	exports.$ = $;
-
+	
 	var _statics = __webpack_require__(2);
-
+	
 	var _prototype = __webpack_require__(5);
-
+	
 	/**
 	 * Created by du on 16/9/28.
 	 */
@@ -94,7 +97,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    objE.innerHTML = arg;
 	    return objE.childNodes;
 	}
-
+	
 	var neat = function neat(selector, context) {
 	    Array.call(this);
 	    context = context || document;
@@ -128,11 +131,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    [].push.apply(this, $.unique(t));
 	};
-
+	
 	function $(selector, context) {
 	    return new neat(selector, context);
 	}
-
+	
 	$.fn = neat.prototype = Object.create(Array.prototype);
 	_statics.method.extend($, _statics.method);
 	$.extend($.fn, _prototype.prototype);
@@ -142,24 +145,24 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
-
+	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 	exports.method = undefined;
-
+	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /**
 	                                                                                                                                                                                                                                                                               * Created by du on 16/9/28.
 	                                                                                                                                                                                                                                                                               */
 	//静态方法
-
-
+	
+	
 	var _deferred = __webpack_require__(3);
-
+	
 	var _adjax = __webpack_require__(4);
-
+	
 	var _core = __webpack_require__(1);
-
+	
 	var method = exports.method = {
 	    extend: function extend(target, ob) {
 	        for (var i in ob) {
@@ -168,8 +171,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        return target;
 	    },
-
-
+	
+	
 	    //要支持dom数组
 	    unique: function unique(arrayLike) {
 	        if (!arrayLike.length) return arrayLike;
@@ -200,7 +203,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            f(c, argvs);
 	            _run(proxy);
 	        }
-
+	
 	        var start = new Date();
 	        _run(proxy);
 	    },
@@ -220,7 +223,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    qs: function qs(e) {
 	        return _qs[e];
 	    },
-
+	
 	    //autoFix:["height", "width", "fontSize", "top", "left", "right", "bottom"],
 	    Deferred: _deferred.deferred
 	};
@@ -243,17 +246,17 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
-
+	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 	exports.deferred = deferred;
-
+	
 	var _core = __webpack_require__(1);
-
+	
 	function Deferred(task) {
 	    var _this2 = this;
-
+	
 	    var callbacks = [[], [], [], []];
 	    //promise标准有三种状态,pending(0),fulfilled(1),rejected(2)
 	    //Neat为了提供优雅的错误处理,对promise进行了扩展,增加了第四种状态,
@@ -275,7 +278,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        then: function then() {
 	            var _arguments = arguments,
 	                _this = this;
-
+	
 	            var newDeferred = _core.$.Deferred();
 	            var argv = [].slice.call(arguments);
 	            var successCallback = argv[0];
@@ -295,7 +298,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    newDeferred.resolve(ret);
 	                }
 	            };
-
+	
 	            //pass reject and exception
 	            //argv[1]=(e)=>{
 	            //    arguments[1]&&arguments[1](e)
@@ -307,7 +310,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            //    arguments[2]&&arguments[2](e)
 	            //    newDeferred.notify(e,3,true) ;
 	            //}
-
+	
 	            //pass reject and exception
 	            [1, 2, 3].forEach(function (state) {
 	                argv[state] = function (data) {
@@ -315,7 +318,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    newDeferred.emit(data, state + 1, _this, true);
 	                };
 	            });
-
+	
 	            saveCallbacks.apply(null, argv);
 	            return newDeferred.promise();
 	        },
@@ -336,7 +339,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            callbacks[3].push(fun);
 	            return this;
 	        },
-
+	
 	        //promise对象的标签,
 	        _npt: 1
 	        //noChange为true则不改变promiseState,默认为false
@@ -373,7 +376,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return _promise;
 	        }
 	    });
-
+	
 	    setTimeout(function () {
 	        task && task(_this2);
 	    }, 0);
@@ -406,7 +409,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    }).promise();
 	};
-
+	
 	function deferred(task) {
 	    return new Deferred(task);
 	}
@@ -416,16 +419,16 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
-
+	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 	exports.ajax = undefined;
-
+	
 	var _core = __webpack_require__(1);
-
+	
 	var _deferred = __webpack_require__(3);
-
+	
 	/**
 	 * Created by du on 16/9/28.
 	 */
@@ -442,7 +445,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
 	        var data = arguments[1];
 	        var options = arguments[2];
-
+	
 	        var xhr;
 	        var promise = (0, _deferred.deferred)(function (defer) {
 	            options = _core.$.extend({ type: "GET" }, options);
@@ -468,7 +471,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            xhr.onprogress = function (event) {
 	                defer.notify(event, xhr);
 	            };
-
+	
 	            if (options.type.toUpperCase() == "GET") {
 	                xhr.open("GET", url + "?" + params, true);
 	            } else {
@@ -479,8 +482,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                xhr.setRequestHeader(k, options.header[k]);
 	            }
 	            xhr.send(params[0] ? params : null);
+	            promise.xhr = xhr;
 	        }).promise();
-	        promise.xhr = xhr;
+	
 	        return promise;
 	    },
 	    get: function get(url, data) {
@@ -496,14 +500,14 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
-
+	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 	exports.prototype = undefined;
-
+	
 	var _core = __webpack_require__(1);
-
+	
 	var prototype = exports.prototype = {
 	    ready: function ready(callback) {
 	        if (/complete|loaded|interactive/.test(document.readyState) && document.body) {
@@ -515,7 +519,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        return this;
 	    },
-
+	
 	    each: function each(callback) {
 	        this.every(function (el, idx) {
 	            return callback.call(el, el, idx) !== false;
@@ -633,7 +637,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else if (_core.$.isObject(mix)) {
 	            t = mix;
 	        }
-
+	
 	        if (JSON.stringify(t) != "{}") {
 	            //$.autoFix.forEach(e=> {
 	            //    t[e] = t[e] && parseFloat(t[e]) + "px";
@@ -658,7 +662,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	    },
 	    attr: function attr(name, value) {
-
+	
 	        if (value != undefined) {
 	            return this.each(function (e) {
 	                if (name == "value") {
@@ -748,7 +752,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    animate: function animate(styles, speed) {
 	        var _this = this;
-
+	
 	        speed = speed || 500;
 	        return _core.$.Deferred(function (d) {
 	            var start = {};
@@ -768,7 +772,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}; /**
 	    * Created by du on 16/9/28.
 	    */
-
+	
 	["parentElement", "previousElementSibling", "nextElementSibling"].forEach(function (e) {
 	    var i = !e.lastIndexOf("par") ? 6 : 4;
 	    prototype[e.substr(0, i)] = function () {
@@ -802,15 +806,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
-
+	
 	var _core = __webpack_require__(1);
-
+	
 	var doubleTap = {},
 	    singleTimer,
 	    longTapTimer; /**
 	                   * Created by liux on 2016/10/17.
 	                   */
-
+	
 	var TapD = 7,
 	    SwipeD = 10,
 	    DoubleTapDelay = 300,
@@ -862,7 +866,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        }
 	    }
-
+	
 	    (0, _core.$)(document).on('touchstart', function (e) {
 	        el = (0, _core.$)(event.target);
 	        startTime = Date.now();
@@ -889,3 +893,4 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ])
 });
 ;
+//# sourceMappingURL=neat.js.map

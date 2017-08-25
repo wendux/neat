@@ -2,14 +2,14 @@
   "name": "neat-js",
   "main": "dist/neat.js",
   "unpkg": "dist/neat.min.js",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Elegant, clear, efficient, mobile terminal priority, JavaScript library.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": {
-   "name":"wendux",
-    "url":"https://github.com/wendux"
+    "name": "wendux",
+    "url": "https://github.com/wendux"
   },
   "license": "MIT",
   "repository": {
@@ -26,5 +26,6 @@
   "bugs": {
     "url": "https://github.com/wendux/Neat/issues"
   },
-  "homepage": "http://neat.dtworkroom.com"
+  "homepage": "http://neat.dtworkroom.com",
+  "dependencies": {}
 }
