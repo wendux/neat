@@ -3,6 +3,9 @@
  */
 import {$} from "./core/core"
 import "./core/touch"
-module.exports = $;
-window.neat=window.$=undefined;
+//umd放开
+//module.exports = $;
+
+//min包放开
+window.neat=window.$=$;
 

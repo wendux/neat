@@ -1,18 +1,18 @@
 /**
  * Created by du on 16/9/24.
  */
-var path = require('path');
 var fs = require("fs");
 var webpack = require('webpack');
 module.exports = {
+    devtool:'#source-map',
     entry: {
         neat: "./src/neat.js",
-        "neat.plugin.util":"./src/extend/neat.plugin.util.js",
-        test:["./examples/test.js"]
     },
     output: {
-        path: "./dist",
-        filename: "[name].min.js"
+        path: "./npm/dist",
+        filename: "[name].min.js",
+        //umd放开
+        // libraryTarget: "umd",
     },
     module: {
         loaders: [
@@ -27,6 +27,7 @@ module.exports = {
     },
     plugins: [
         new webpack.optimize.UglifyJsPlugin({
+            sourceMap: true,
             compress: {
                 warnings: true
             }
